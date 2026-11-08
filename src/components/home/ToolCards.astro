@@ -1,0 +1,77 @@
+---
+import { getCollection } from 'astro:content';
+import SectionHeading from '../SectionHeading.astro';
+import ToolIcon from '../ToolIcon.astro';
+
+interface Props {
+  number: number;
+}
+
+const { number } = Astro.props;
+const tools = (await getCollection('tools')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<section id="tools" class="section" aria-labelledby="tools-title" style="padding-top: 0">
+  <div class="container stack" style="--gap: 2.25rem">
+    <div class="tools__head">
+      <SectionHeading label="Tools" heading="Tools I use every day" number={number} id="tools-title" />
+      <p class="muted tools__intro">Free, open-source browser userscripts for the checks I make on every build.</p>
+    </div>
+    <ul class="grid" role="list" style="--min: 18rem">
+      {
+        tools.map(({ id, data }) => (
+          <li class="card tool-card">
+            <div class="card__body">
+              <ToolIcon icon={data.icon} />
+              <h3 class="tool-card__title">{data.name}</h3>
+              <p class="tool-card__summary">{data.cardSummary}</p>
+              <p class="mono tool-card__meta">
+                v{data.version} · {data.licence}
+              </p>
+              <a class="link-arrow tool-card__link" href={`/tools/${id}/`}>
+                Read more<span class="visually-hidden">: {data.name}</span> →
+              </a>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .tools__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem 2rem;
+  }
+
+  .tools__intro {
+    max-width: 26rem;
+  }
+
+  .tool-card {
+    display: flex;
+  }
+
+  .tool-card__title {
+    font-size: 1.35rem;
+    line-height: 1.2;
+  }
+
+  .tool-card__summary {
+    color: var(--ink-2);
+  }
+
+  .tool-card__meta {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .tool-card__link {
+    margin-top: auto;
+    align-self: flex-start;
+  }
+</style>

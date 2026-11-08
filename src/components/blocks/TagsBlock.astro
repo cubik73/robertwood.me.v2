@@ -1,0 +1,18 @@
+---
+import type { Block } from '../../content.config';
+
+type Props = Extract<Block, { type: 'tags' }>;
+const { tags } = Astro.props;
+---
+
+<div class="container tags-block">
+  <ul class="cluster" role="list" aria-label="Skills used" style="--gap: 0.5rem">
+    {tags.map((tag) => <li class="chip">{tag}</li>)}
+  </ul>
+</div>
+
+<style>
+  .tags-block {
+    padding-block: 3.5rem 2.5rem;
+  }
+</style>

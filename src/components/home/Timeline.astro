@@ -1,0 +1,133 @@
+---
+import { getCollection } from 'astro:content';
+import SectionHeading from '../SectionHeading.astro';
+import { site } from '../../data/site';
+
+interface Props {
+  number: number;
+}
+
+const { number } = Astro.props;
+const roles = (await getCollection('experience')).sort((a, b) => a.data.order - b.data.order);
+const main = roles.filter((r) => r.data.main);
+const earlier = roles.filter((r) => !r.data.main);
+const earliestYear = earlier.at(-1)?.data.start;
+const latestEarlier = earlier[0]?.data.end;
+const dates = (start: string, end?: string) => `${start} – ${end ?? 'now'}`;
+---
+
+<section id="experience" class="section" aria-labelledby="experience-title">
+  <div class="container stack" style="--gap: 2rem">
+    <div class="timeline__head">
+      <SectionHeading label="Experience" heading="Where I've been" number={number} id="experience-title" />
+      {site.cv && <a class="link-arrow" href={site.cv}>Full CV (PDF) →</a>}
+    </div>
+    <ol class="timeline" role="list">
+      {
+        main.map(({ data }) => (
+          <li class="timeline__row">
+            <span class="mono muted timeline__dates">{dates(data.start, data.end)}</span>
+            <span class="timeline__role">
+              <strong>{data.title}</strong>
+              <span class="muted">{data.company}</span>
+            </span>
+            <span class="timeline__summary">{data.summary}</span>
+          </li>
+        ))
+      }
+    </ol>
+    {
+      earlier.length > 0 && (
+        <details class="timeline__earlier">
+          <summary>
+            <span>Earlier career</span>
+            <span class="mono muted">
+              {earliestYear} – {latestEarlier}
+            </span>
+          </summary>
+          <ol class="timeline" role="list">
+            {earlier.map(({ data }) => (
+              <li class="timeline__row">
+                <span class="mono muted timeline__dates">{dates(data.start, data.end)}</span>
+                <span class="timeline__role">
+                  <strong>{data.title}</strong>
+                  <span class="muted">{data.company}</span>
+                </span>
+                <span class="timeline__summary">{data.summary}</span>
+              </li>
+            ))}
+          </ol>
+        </details>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .timeline__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem 2rem;
+  }
+
+  .timeline {
+    border-top: 1px solid var(--line);
+  }
+
+  .timeline__row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr));
+    gap: 0.5rem 1.5rem;
+    align-items: baseline;
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .timeline__dates {
+    font-size: 0.875rem;
+  }
+
+  .timeline__role {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.125rem;
+  }
+
+  .timeline__role .muted {
+    font-size: 1rem;
+  }
+
+  .timeline__summary {
+    color: var(--ink-2);
+  }
+
+  .timeline__earlier summary {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    padding-block: 1.25rem;
+    border-bottom: 1px solid var(--line);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .timeline__earlier summary::marker,
+  .timeline__earlier summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .timeline__earlier summary > span:first-child::before {
+    content: '▸ ';
+  }
+
+  .timeline__earlier[open] summary > span:first-child::before {
+    content: '▾ ';
+  }
+
+  .timeline__earlier .timeline {
+    border-top: 0;
+  }
+</style>

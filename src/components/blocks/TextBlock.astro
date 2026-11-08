@@ -1,0 +1,77 @@
+---
+import type { Block } from '../../content.config';
+import SectionHeading from '../SectionHeading.astro';
+
+type Props = Extract<Block, { type: 'text' }> & { number?: number };
+const { label, heading, body, subsections, tags, surface, number } = Astro.props;
+---
+
+<section class:list={['section', { 'section--surface': surface }]}>
+  <div class="container split">
+    <div class="split__aside">
+      <SectionHeading label={label} heading={heading} number={number} size="sm" />
+    </div>
+    <div class="split__main stack" style="--gap: 1.75rem">
+      {
+        body.length > 0 && (
+          <div class="prose">
+            {body.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+          </div>
+        )
+      }
+      {
+        subsections.length > 0 && (
+          <div class="grid" style="--min: 16rem; --gap: 1.75rem">
+            {subsections.map((sub) => (
+              <div class="subsection">
+                <h3>{sub.heading}</h3>
+                {sub.body.map((paragraph) => (
+                  <p>{paragraph}</p>
+                ))}
+                {sub.list.length > 0 && (
+                  <ul>
+                    {sub.list.map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                )}
+                {sub.note && <p>{sub.note}</p>}
+              </div>
+            ))}
+          </div>
+        )
+      }
+      {
+        tags.length > 0 && (
+          <ul class="cluster" role="list" aria-label="Skills used" style="--gap: 0.5rem">
+            {tags.map((tag) => (
+              <li class="chip">{tag}</li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .subsection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    color: var(--ink-2);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+  }
+
+  .subsection h3 {
+    font-size: 1.3rem;
+    color: var(--ink);
+  }
+
+  .subsection ul {
+    padding-left: 1.25rem;
+  }
+</style>

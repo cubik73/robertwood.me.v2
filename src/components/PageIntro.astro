@@ -1,0 +1,76 @@
+---
+/** Title area for case studies and tools (B09 Intro + B10 Fact strip). */
+interface Props {
+  eyebrow: string;
+  title: string;
+  lede: string;
+  facts: { label: string; value: string }[];
+  footnote?: string;
+  backHref: string;
+  backLabel: string;
+}
+
+const { eyebrow, title, lede, facts, footnote, backHref, backLabel } = Astro.props;
+---
+
+<header class="container intro">
+  <a class="link-arrow intro__back" href={backHref}>← {backLabel}</a>
+  <slot name="before-title" />
+  <p class="eyebrow">{eyebrow}</p>
+  <h1 class="title-lg intro__title">{title}</h1>
+  <p class="lede">{lede}</p>
+  <dl class="facts">
+    {
+      facts.map((fact) => (
+        <div class="facts__item">
+          <dt class="mono">{fact.label}</dt>
+          <dd>{fact.value}</dd>
+        </div>
+      ))
+    }
+  </dl>
+  {footnote && <p class="intro__footnote muted">{footnote}</p>}
+</header>
+
+<style>
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding-block: clamp(2.5rem, 6vw, 4rem) clamp(2.5rem, 5vw, 3.5rem);
+  }
+
+  .intro__back {
+    align-self: flex-start;
+    font-weight: 500;
+  }
+
+  .intro__title {
+    max-width: 62rem;
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+    gap: 1rem 1.5rem;
+    margin-top: 1rem;
+    padding-block: 1.25rem;
+    border-block: 1px solid var(--line);
+  }
+
+  .facts dt {
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .facts dd {
+    margin: 0.3rem 0 0;
+    font-weight: 600;
+  }
+
+  .intro__footnote {
+    font-size: 0.9rem;
+  }
+</style>

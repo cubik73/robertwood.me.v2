@@ -1,0 +1,62 @@
+[
+  {
+    "id": "see-green",
+    "title": "Web Developer",
+    "company": "See Green, York",
+    "start": "2025",
+    "end": "2026",
+    "summary": "Built and maintained client websites, and shared front-end experience with colleagues.",
+    "main": true,
+    "order": 1
+  },
+  {
+    "id": "perfectdraft-po",
+    "title": "Senior / Technical Product Owner",
+    "company": "PerfectDraft · AB InBev",
+    "start": "2023",
+    "end": "2024",
+    "summary": "Led the move of nine European stores onto one Magento 2 platform; trained 20+ colleagues.",
+    "main": true,
+    "order": 2
+  },
+  {
+    "id": "perfectdraft-fed",
+    "title": "Senior Front-End Developer",
+    "company": "PerfectDraft (formerly Beer Hawk) · AB InBev",
+    "start": "2018",
+    "end": "2023",
+    "summary": "Built and led the front-end team; cut image file sizes by ~80% on average.",
+    "main": true,
+    "order": 3
+  },
+  {
+    "id": "super-break",
+    "title": "Designer",
+    "company": "Super Break, York",
+    "start": "2014",
+    "end": "2018",
+    "summary": "Redesigned SuperBreak.com and its partner sites.",
+    "main": true,
+    "order": 4
+  },
+  {
+    "id": "ai-trackrecord",
+    "title": "Developer, Support Analyst & Technical Author",
+    "company": "AI TrackRecord, York",
+    "start": "2003",
+    "end": "2014",
+    "summary": "Web-based compliance applications for the financial sector, support and documentation.",
+    "main": false,
+    "order": 5
+  },
+  {
+    "id": "early-career",
+    "title": "Developer & Web Development Manager",
+    "company": "dezap, ioko365, Infobank Software Corporation",
+    "start": "1994",
+    "end": "2003",
+    "summary": "Built a software company's first website, then sites for Lloyd's of London, ACPO and the NHS.",
+    "main": false,
+    "order": 6
+  }
+]

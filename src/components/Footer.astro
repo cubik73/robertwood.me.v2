@@ -1,0 +1,41 @@
+---
+import { site } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer section--deep">
+  <div class="container site-footer__inner">
+    <p>© {year} {site.name}</p>
+    <ul class="cluster" role="list">
+      <li><a href="/colophon/">How this site is built</a></li>
+      <li><a href="/privacy/">Privacy</a></li>
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--deep-2);
+    font-size: 0.875rem;
+  }
+
+  .site-footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem 1.5rem;
+    padding-block: 1.25rem;
+    color: var(--on-deep-muted);
+  }
+
+  .site-footer a {
+    display: inline-block;
+    padding-block: 0.35rem;
+    color: var(--on-deep-muted);
+  }
+
+  .site-footer a:hover {
+    color: var(--on-deep);
+  }
+</style>

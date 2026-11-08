@@ -1,0 +1,74 @@
+---
+import Logo from './Logo.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import { site } from '../data/site';
+---
+
+<header class="site-header">
+  <div class="container site-header__inner">
+    <Logo />
+    <nav aria-label="Main">
+      <ul class="site-nav" role="list">
+        {
+          site.nav.map((item) => (
+            <li>
+              <a href={item.href}>{item.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div class="site-header__actions">
+      {site.cv && <a class="btn btn--ink" href={site.cv}>Download CV</a>}
+      <ThemeToggle />
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .site-header__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    padding-block: 0.9rem;
+  }
+
+  .site-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.25rem;
+  }
+
+  .site-nav a {
+    display: inline-block;
+    padding-block: 0.5rem;
+    color: var(--ink-2);
+    font-weight: 500;
+    font-size: 0.9375rem;
+    text-decoration: none;
+  }
+
+  .site-nav a:hover {
+    color: var(--ink);
+    text-decoration: underline;
+  }
+
+  .site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 40rem) {
+    nav {
+      order: 3;
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,104 @@
+---
+import type { Block } from '../../content.config';
+import Placeholder from '../Placeholder.astro';
+import BrowserFrame from '../frames/BrowserFrame.astro';
+
+type Props = Extract<Block, { type: 'feature' }> & { number?: number };
+const { label, status, heading, sections, tech, link, media, mediaSide, surface, number } = Astro.props;
+const prefix = number ? `${String(number).padStart(2, '0')} / ` : '';
+const isExternal = link?.href.startsWith('http');
+---
+
+<section class:list={['section', { 'section--surface': surface }]}>
+  <div class:list={['container', 'feature', { 'feature--media-right': mediaSide === 'right' }]}>
+    <div class="feature__media">
+      <BrowserFrame address={media.address} height="26rem">
+        <Placeholder image={media} />
+      </BrowserFrame>
+    </div>
+    <div class="feature__body stack" style="--gap: 1.25rem">
+      <div class="cluster" style="--gap: 0.75rem">
+        <p class="eyebrow">{prefix}{label}</p>
+        {
+          status && (
+            <span class="status">
+              {status === 'live' && <span class="status__dot" aria-hidden="true" />}
+              {status === 'live' ? 'Live' : 'Prototype'}
+            </span>
+          )
+        }
+      </div>
+      <h2 class="title-sm">{heading}</h2>
+      {
+        sections.map((section) => (
+          <div class="feature__section">
+            <h3>{section.heading}</h3>
+            {section.body.map((p) => (
+              <p>{p}</p>
+            ))}
+            {section.list.length > 0 && (
+              <ul>
+                {section.list.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            )}
+            {section.note && <p>{section.note}</p>}
+          </div>
+        ))
+      }
+      {tech && <p class="mono feature__tech">{tech}</p>}
+      {
+        link && (
+          <a
+            class:list={[isExternal ? 'btn btn--primary' : 'link-arrow']}
+            href={link.href}
+            {...(isExternal ? { rel: 'noopener' } : {})}
+          >
+            {link.label}
+          </a>
+        )
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .feature {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: 3rem;
+    align-items: start;
+  }
+
+  @media (min-width: 52rem) {
+    .feature--media-right .feature__media {
+      order: 2;
+    }
+  }
+
+  .feature__section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    color: var(--ink-2);
+  }
+
+  .feature__section h3 {
+    font-size: 1.2rem;
+    color: var(--ink);
+  }
+
+  .feature__section ul {
+    padding-left: 1.25rem;
+  }
+
+  .feature__tech {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .feature__body > a {
+    align-self: flex-start;
+  }
+</style>

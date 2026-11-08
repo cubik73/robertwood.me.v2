@@ -1,0 +1,151 @@
+---
+import Placeholder from '../Placeholder.astro';
+import { site } from '../../data/site';
+---
+
+<section class="container hero" aria-labelledby="hero-title">
+  <div class="hero__text stack" style="--gap: 1.4rem">
+    {
+      site.availability.open && (
+        <p class="hero__pill">
+          <span class="status__dot" aria-hidden="true" />
+          {site.availability.text}
+        </p>
+      )
+    }
+    <p class="mono muted hero__role">{site.role} · {site.location}</p>
+    <h1 id="hero-title" class="title-xl">{site.name}</h1>
+    <p class="lede">
+      I make e-commerce sites faster, more accessible and easier to run, with React, TypeScript and Magento 2.
+    </p>
+    <div class="cluster">
+      <a class="btn btn--primary" href="#work">See my work</a>
+      <a class="btn btn--outline" href="#contact">Get in touch</a>
+    </div>
+    <ul class="cluster hero__links" role="list" style="--gap: 0.25rem 1.25rem">
+      <li><a href={site.linkedin}>LinkedIn</a></li>
+      <li><a href={site.github}>GitHub</a></li>
+      <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+    </ul>
+  </div>
+
+  <div class="hero__visual">
+    <span class="hero__motif" aria-hidden="true">
+      <span class="ht-c"></span>
+      <span class="ht-m"></span>
+      <span class="ht-y"></span>
+    </span>
+    <Placeholder image={{ alt: 'Portrait of Robert Wood', placeholder: '[Portrait photo]' }} class="hero__portrait" eager />
+    <pre class="hero__code" aria-hidden="true"><span class="hero__code-hi">.your</span>::developer &#123;
+  tech: <span class="hero__code-hi">'React'</span>;
+&#125;</pre>
+  </div>
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+    gap: 4rem;
+    align-items: center;
+    padding-block: clamp(3rem, 8vw, 5.5rem);
+  }
+
+  .hero__pill {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.9rem 0.35rem 0.75rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--card);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .hero__role {
+    font-size: 0.875rem;
+  }
+
+  .hero__links a {
+    display: inline-block;
+    padding-block: 0.3rem;
+    font-weight: 500;
+    font-size: 0.9375rem;
+  }
+
+  .hero__visual {
+    position: relative;
+  }
+
+  .hero__motif {
+    position: absolute;
+    left: -4.5rem;
+    top: -3rem;
+    width: 12.5rem;
+    height: 12.5rem;
+    pointer-events: none;
+  }
+
+  .hero__motif span {
+    position: absolute;
+    width: 7.5rem;
+    height: 7.5rem;
+    border-radius: 50%;
+  }
+
+  .hero__motif .ht-c {
+    left: 0;
+    top: 0;
+    opacity: 0.35;
+  }
+
+  .hero__motif .ht-m {
+    left: 3.75rem;
+    top: 1.9rem;
+    opacity: 0.3;
+  }
+
+  .hero__motif .ht-y {
+    left: 1.9rem;
+    top: 5rem;
+    opacity: 0.45;
+  }
+
+  :global(.hero__portrait) {
+    position: relative;
+    height: clamp(20rem, 45vw, 31rem);
+    border-radius: var(--radius-lg);
+  }
+
+  .hero__code {
+    position: absolute;
+    left: -1.5rem;
+    bottom: 2rem;
+    margin: 0;
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    background: var(--deep);
+    color: var(--on-deep);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    box-shadow: 0 12px 32px var(--shadow);
+  }
+
+  .hero__code-hi {
+    color: var(--hi);
+  }
+
+  @media (max-width: 40rem) {
+    .hero__motif {
+      left: auto;
+      right: -3rem;
+    }
+
+    .hero__code {
+      left: 1rem;
+    }
+  }
+</style>

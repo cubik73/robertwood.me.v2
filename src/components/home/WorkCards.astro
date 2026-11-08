@@ -1,0 +1,96 @@
+---
+import { getCollection } from 'astro:content';
+import SectionHeading from '../SectionHeading.astro';
+import Placeholder from '../Placeholder.astro';
+
+interface Props {
+  number: number;
+}
+
+const { number } = Astro.props;
+const studies = (await getCollection('caseStudies', ({ data }) => data.featured)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<section id="work" class="section" aria-labelledby="work-title">
+  <div class="container stack" style="--gap: 2.5rem">
+    <div class="work__head">
+      <SectionHeading label="Selected work" heading="Problems I've solved" number={number} id="work-title" />
+      <p class="muted work__intro">What the problem was, what I did, and what changed as a result.</p>
+    </div>
+    <ul class="grid" role="list" style="--min: 28rem; --gap: 1.75rem">
+      {
+        studies.map(({ id, data }) => (
+          <li class="card work-card">
+            <div class:list={['work-card__media', data.card.tagTone === 'm' ? 'halftone halftone--m' : 'halftone']}>
+              <Placeholder image={data.card.image} class="work-card__img" />
+            </div>
+            <div class="card__body">
+              <span class:list={['tag', { 'tag--m': data.card.tagTone === 'm' }]}>{data.card.tag}</span>
+              <h3 class="work-card__title">{data.title}</h3>
+              <p class="work-card__summary">{data.card.summary}</p>
+              <p class="mono work-card__meta">{data.card.meta}</p>
+              <a class="link-arrow work-card__link" href={`/work/${id}/`}>
+                Read case study<span class="visually-hidden">: {data.title}</span> →
+              </a>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .work__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem 2rem;
+  }
+
+  .work__intro {
+    max-width: 26rem;
+  }
+
+  .work-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .work-card__media {
+    display: grid;
+    height: 15rem;
+    padding: 1.5rem 1.5rem 0;
+  }
+
+  :global(.work-card__img) {
+    border-radius: 10px 10px 0 0;
+    background: var(--card);
+  }
+
+  .tag {
+    align-self: flex-start;
+  }
+
+  .work-card__title {
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+
+  .work-card__summary {
+    color: var(--ink-2);
+  }
+
+  .work-card__meta {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+
+  .work-card__link {
+    margin-top: auto;
+    align-self: flex-start;
+  }
+</style>

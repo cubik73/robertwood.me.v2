@@ -1,0 +1,251 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import ToolIcon from '../../components/ToolIcon.astro';
+import Placeholder from '../../components/Placeholder.astro';
+import BrowserFrame from '../../components/frames/BrowserFrame.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import NextCta from '../../components/NextCta.astro';
+
+export const getStaticPaths = (async () => {
+  const tools = (await getCollection('tools')).sort((a, b) => a.data.order - b.data.order);
+  return tools.map((tool, index) => ({
+    params: { slug: tool.id },
+    props: { tool, next: tools[(index + 1) % tools.length]! },
+  }));
+}) satisfies GetStaticPaths;
+
+const { tool, next } = Astro.props;
+const { data } = tool;
+const related = data.related ? await getEntry(data.related) : undefined;
+const facts = [
+  { label: 'Version', value: data.version },
+  { label: 'Licence', value: data.licence },
+  { label: 'Runs on', value: 'Any site' },
+  ...(data.shortcut ? [{ label: 'Shortcut', value: data.shortcut }] : []),
+];
+---
+
+<BaseLayout title={data.name} description={data.lede}>
+  <PageIntro
+    eyebrow="Tool · Tampermonkey userscript"
+    title={data.name}
+    lede={data.lede}
+    facts={facts}
+    backHref="/#tools"
+    backLabel="All tools"
+  >
+    <ToolIcon slot="before-title" icon={data.icon} />
+  </PageIntro>
+
+  <section class="container install" aria-label="Install">
+    <p>
+      Needs the free <strong>Tampermonkey</strong> extension for Chrome, Firefox, Edge or Safari. Install it first, then the
+      script.
+    </p>
+    <div class="cluster">
+      <a class="btn btn--hi" href={data.install}>Install script</a>
+      <a class="btn install__source" href={data.source}>View source</a>
+    </div>
+  </section>
+
+  <div class="container tool-shot">
+    <BrowserFrame address="any-website.com">
+      <Placeholder image={data.screenshot} />
+    </BrowserFrame>
+  </div>
+
+  <section class="section">
+    <div class="container split">
+      <div class="split__aside">
+        <SectionHeading label="The check" heading={data.check.heading} number={1} size="sm" />
+      </div>
+      <p class="split__main prose">{data.check.body}</p>
+    </div>
+  </section>
+
+  <section class="section section--surface">
+    <div class="container stack" style="--gap: 2.25rem">
+      <SectionHeading label="Features" heading="What it does" number={2} />
+      <ul class="grid" role="list" style="--min: 16rem">
+        {
+          data.features.map((feature) => (
+            <li class="feature-card">
+              <h3>{feature.title}</h3>
+              <p>{feature.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container split">
+      <div class="split__aside">
+        <SectionHeading label="How to use it" heading={`${data.steps.length} steps`} number={3} size="sm" />
+      </div>
+      <ol class="split__main tool-steps" role="list">
+        {
+          data.steps.map((step, index) => (
+            <li>
+              <span class="number-badge" aria-hidden="true">
+                {index + 1}
+              </span>
+              <p>
+                <span class="visually-hidden">Step {index + 1}: </span>
+                {step}
+              </p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="hood split">
+      <div class="split__aside">
+        <SectionHeading label="Under the hood" heading="How it's built" number={4} size="sm" />
+      </div>
+      <div class="split__main stack" style="--gap: 1.25rem">
+        <p class="prose">{data.hood}</p>
+        <ul class="cluster" role="list" aria-label="Topics" style="--gap: 0.5rem">
+          {data.tags.map((tag) => <li class="chip">{tag}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {
+    related && (
+      <div class="container related">
+        <a class="related__link" href={`/work/${related.id}/`}>
+          <span class="mono related__label">Related case study</span>
+          <span class="related__title">{related.data.title}</span>
+        </a>
+      </div>
+    )
+  }
+
+  <NextCta
+    nextLabel="Next tool"
+    nextTitle={next.data.name}
+    nextHref={`/tools/${next.id}/`}
+    ctaHeading="All my userscripts, free and open source"
+    ctaLabel="Browse on GitHub"
+    ctaHref={data.source}
+  />
+</BaseLayout>
+
+<style>
+  .install {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    background: var(--deep);
+    color: var(--on-deep-muted);
+  }
+
+  .install strong {
+    color: var(--on-deep);
+  }
+
+  .install p {
+    flex: 1 1 18rem;
+  }
+
+  .install__source {
+    border-color: var(--on-deep);
+    color: var(--on-deep);
+  }
+
+  .install__source:hover {
+    background: var(--deep-2);
+    color: var(--on-deep);
+  }
+
+  .tool-shot {
+    padding-top: clamp(2.5rem, 5vw, 3.5rem);
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper);
+  }
+
+  .feature-card h3 {
+    margin-bottom: 0.4rem;
+    font-size: 1.2rem;
+  }
+
+  .feature-card p {
+    color: var(--ink-2);
+    font-size: 1rem;
+  }
+
+  .tool-steps li {
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+    padding-block: 1.1rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .tool-steps li:first-child {
+    padding-top: 0;
+  }
+
+  .tool-steps p {
+    color: var(--ink-2);
+    font-size: 1.0625rem;
+  }
+
+  .hood {
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: var(--card);
+  }
+
+  .related {
+    padding-top: 1.5rem;
+  }
+
+  .related__link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--radius);
+    background: var(--tint);
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .related__link:hover {
+    color: var(--ink);
+    text-decoration: underline;
+  }
+
+  .related__label {
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .related__title {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+</style>

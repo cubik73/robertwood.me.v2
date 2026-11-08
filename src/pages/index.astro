@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/home/Hero.astro';
+import StatsBlock from '../components/blocks/StatsBlock.astro';
+import WorkCards from '../components/home/WorkCards.astro';
+import ToolCards from '../components/home/ToolCards.astro';
+import SkillGroups from '../components/home/SkillGroups.astro';
+import Timeline from '../components/home/Timeline.astro';
+import About from '../components/home/About.astro';
+import Contact from '../components/home/Contact.astro';
+import { site, stats } from '../data/site';
+---
+
+<BaseLayout title={site.name}>
+  <Hero />
+  <StatsBlock type="stats" label="Key results" heading="The short version" items={stats} variant="band" hideHeading />
+  <WorkCards number={1} />
+  <ToolCards number={2} />
+  <SkillGroups number={3} />
+  <Timeline number={4} />
+  <About number={5} />
+  <Contact number={6} />
+</BaseLayout>

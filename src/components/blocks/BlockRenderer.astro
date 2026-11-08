@@ -1,0 +1,40 @@
+---
+/**
+ * Renders a case study's flexible block area. Blocks with a label are
+ * numbered in order ("01 / The problem"), so editors never type numbers.
+ */
+import type { Block } from '../../content.config';
+import StatsBlock from './StatsBlock.astro';
+import BarsBlock from './BarsBlock.astro';
+import MediaBlock from './MediaBlock.astro';
+import TextBlock from './TextBlock.astro';
+import StepsBlock from './StepsBlock.astro';
+import ImagesBlock from './ImagesBlock.astro';
+import FeatureBlock from './FeatureBlock.astro';
+import CardsBlock from './CardsBlock.astro';
+import TagsBlock from './TagsBlock.astro';
+
+interface Props {
+  blocks: Block[];
+}
+
+const { blocks } = Astro.props;
+let count = 0;
+const items = blocks.map((block) => ({ block, number: 'label' in block ? ++count : undefined }));
+---
+
+{
+  items.map(({ block, number }) => (
+    <>
+      {block.type === 'stats' && <StatsBlock {...block} number={number} />}
+      {block.type === 'bars' && <BarsBlock {...block} />}
+      {block.type === 'media' && <MediaBlock {...block} />}
+      {block.type === 'text' && <TextBlock {...block} number={number} />}
+      {block.type === 'steps' && <StepsBlock {...block} number={number} />}
+      {block.type === 'images' && <ImagesBlock {...block} />}
+      {block.type === 'feature' && <FeatureBlock {...block} number={number} />}
+      {block.type === 'cards' && <CardsBlock {...block} number={number} />}
+      {block.type === 'tags' && <TagsBlock {...block} />}
+    </>
+  ))
+}

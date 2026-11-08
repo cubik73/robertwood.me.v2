@@ -1,0 +1,79 @@
+---
+/**
+ * Light/dark switch. The initial theme is applied by an inline script in
+ * BaseLayout before first paint, so there's no flash of the wrong theme.
+ * With no saved choice the site follows prefers-color-scheme.
+ */
+---
+
+<button class="theme-toggle" type="button" aria-label="Dark theme" aria-pressed="false" data-theme-toggle>
+  <svg class="theme-toggle__moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+  </svg>
+  <svg class="theme-toggle__sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="4"></circle>
+    <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+  </svg>
+</button>
+
+<script>
+  const root = document.documentElement;
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+  const current = () => root.dataset.theme ?? (prefersDark.matches ? 'dark' : 'light');
+
+  const sync = () => {
+    const isDark = current() === 'dark';
+    document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((button) => {
+      button.setAttribute('aria-pressed', String(isDark));
+    });
+    document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((meta) => {
+      meta.content = isDark ? '#1c1a17' : '#f4f0e6';
+    });
+  };
+
+  document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const next = current() === 'dark' ? 'light' : 'dark';
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem('theme', next);
+      } catch {
+        /* storage unavailable: the choice lasts for this page view */
+      }
+      sync();
+    });
+  });
+
+  prefersDark.addEventListener('change', sync);
+  sync();
+</script>
+
+<style>
+  .theme-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1.5px solid var(--ink);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+  }
+
+  .theme-toggle:hover {
+    background: var(--card);
+  }
+
+  .theme-toggle__sun {
+    display: none;
+  }
+
+  .theme-toggle[aria-pressed='true'] .theme-toggle__moon {
+    display: none;
+  }
+
+  .theme-toggle[aria-pressed='true'] .theme-toggle__sun {
+    display: block;
+  }
+</style>

@@ -1,0 +1,30 @@
+---
+import { site } from '../data/site';
+---
+
+<!-- No aria-label: the visible text is the accessible name (WCAG 2.5.3 Label in Name). -->
+<a class="logo" href="/">
+  <span class="logo__text">{site.domain}</span>
+</a>
+
+<style>
+  .logo {
+    font-family: var(--font-mono);
+    font-size: 1.0625rem;
+    font-weight: 500;
+    color: var(--ink);
+    text-decoration: none;
+    padding-block: 0.4rem;
+  }
+
+  /* A one-pixel cyan/magenta misregistration: the print nod. */
+  .logo__text {
+    text-shadow:
+      1px 0 0 var(--mis-c),
+      -1px 0 0 var(--mis-m);
+  }
+
+  .logo:hover {
+    color: var(--ink);
+  }
+</style>

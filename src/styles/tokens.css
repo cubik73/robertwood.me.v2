@@ -1,0 +1,145 @@
+/*
+ * Design tokens: "Print, toned down".
+ * Muted CMYK inks on warm paper (light) or dark stock (dark).
+ * Every text and UI pairing used on the site meets WCAG 2.2 AA in both themes;
+ * see README.md for the contrast table.
+ *
+ * Theme resolution:
+ *   1. data-theme="light" | "dark" on <html> (set by the toggle, saved in localStorage)
+ *   2. otherwise the visitor's prefers-color-scheme
+ */
+
+:root {
+  color-scheme: light;
+
+  --font-display: 'Space Grotesk Variable', 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Inter Variable', 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, monospace;
+
+  --radius-sm: 8px;
+  --radius: 14px;
+  --radius-lg: 20px;
+
+  /* Light: paper */
+  --paper: #f4f0e6;
+  --card: #fbf9f4;
+  --ink: #24211c;
+  --ink-2: #3e3a32;
+  --muted: #4a453b;
+  --line: #ded7c7;
+  --line-2: #cfc6b3;
+  --tint: #e6eef0;
+  --tint-2: #b7d1dc;
+  --ph: #e8e1d2;
+  --accent: #2b6f8f;
+  --on-accent: #fbf9f4;
+  --link: #1f5e7a;
+  --link-hover: #16475c;
+  --label: #9e3552;
+  --deep: #24211c;
+  --deep-2: #3a3630;
+  --on-deep: #f4f0e6;
+  --on-deep-muted: #bdb5a5;
+  --hi: #f2d06b;
+  --on-hi: #24211c;
+  --band: #2b6f8f;
+  --tag-c-bg: #d6e6ec;
+  --tag-c-fg: #1c4a5e;
+  --tag-m-bg: #f0dde0;
+  --tag-m-fg: #7d2a43;
+  --tag-y-bg: #f3e9c6;
+  --dot-c: #2b6f8f;
+  --dot-m: #b0405f;
+  --dot-y: #e0b43c;
+  --mis-c: rgb(43 111 143 / 0.55);
+  --mis-m: rgb(176 64 95 / 0.45);
+  --focus-in: #fbf9f4;
+  --focus-out: #24211c;
+  --shadow: rgb(36 33 28 / 0.1);
+}
+
+/*
+ * Dark: black stock.
+ * The same values appear twice (explicit choice, then system preference).
+ * Plain CSS can't share a block between a selector and a media query
+ * without a preprocessor; keep the two blocks in sync.
+ */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --paper: #1c1a17;
+  --card: #24211d;
+  --ink: #efe9db;
+  --ink-2: #d9d0be;
+  --muted: #bdb5a5;
+  --line: #3e3a33;
+  --line-2: #4a453b;
+  --tint: #1f3038;
+  --tint-2: #2e4b57;
+  --ph: #2e2a24;
+  --accent: #6db0cc;
+  --on-accent: #1c1a17;
+  --link: #7fc0da;
+  --link-hover: #a9d6e8;
+  --label: #e58aa3;
+  --deep: #2a2620;
+  --deep-2: #36312a;
+  --on-deep: #efe9db;
+  --on-deep-muted: #bdb5a5;
+  --hi: #f2d06b;
+  --on-hi: #1c1a17;
+  --band: #1f4e63;
+  --tag-c-bg: #1f3a46;
+  --tag-c-fg: #a9d6e8;
+  --tag-m-bg: #3a2630;
+  --tag-m-fg: #f0b8c7;
+  --tag-y-bg: #3b331c;
+  --dot-c: #6db0cc;
+  --dot-m: #e58aa3;
+  --dot-y: #f2d06b;
+  --mis-c: rgb(109 176 204 / 0.6);
+  --mis-m: rgb(229 138 163 / 0.5);
+  --focus-in: #1c1a17;
+  --focus-out: #f2d06b;
+  --shadow: rgb(0 0 0 / 0.35);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --paper: #1c1a17;
+    --card: #24211d;
+    --ink: #efe9db;
+    --ink-2: #d9d0be;
+    --muted: #bdb5a5;
+    --line: #3e3a33;
+    --line-2: #4a453b;
+    --tint: #1f3038;
+    --tint-2: #2e4b57;
+    --ph: #2e2a24;
+    --accent: #6db0cc;
+    --on-accent: #1c1a17;
+    --link: #7fc0da;
+    --link-hover: #a9d6e8;
+    --label: #e58aa3;
+    --deep: #2a2620;
+    --deep-2: #36312a;
+    --on-deep: #efe9db;
+    --on-deep-muted: #bdb5a5;
+    --hi: #f2d06b;
+    --on-hi: #1c1a17;
+    --band: #1f4e63;
+    --tag-c-bg: #1f3a46;
+    --tag-c-fg: #a9d6e8;
+    --tag-m-bg: #3a2630;
+    --tag-m-fg: #f0b8c7;
+    --tag-y-bg: #3b331c;
+    --dot-c: #6db0cc;
+    --dot-m: #e58aa3;
+    --dot-y: #f2d06b;
+    --mis-c: rgb(109 176 204 / 0.6);
+    --mis-m: rgb(229 138 163 / 0.5);
+    --focus-in: #1c1a17;
+    --focus-out: #f2d06b;
+    --shadow: rgb(0 0 0 / 0.35);
+  }
+}

@@ -1,0 +1,59 @@
+name: Deploy
+
+# Manual only: nothing deploys automatically, so the live site can't be
+# overwritten by accident. Run it from the Actions tab and type "deploy".
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "deploy" to upload the built site to the server'
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: ${{ inputs.confirm == 'deploy' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: production
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Build
+        run: npm run build
+
+      - name: Install lftp
+        run: sudo apt-get update && sudo apt-get install -y lftp
+
+      # Uploads new and changed files only. It never deletes anything on the
+      # server (no --delete), so other apps on the host, such as /cv-gen, are safe.
+      # The password is read from LFTP_PASSWORD (--env-password), so it never
+      # appears on a command line and special characters can't break parsing.
+      - name: Upload over FTPS
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          LFTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_SERVER_DIR: ${{ secrets.FTP_SERVER_DIR }}
+        run: |
+          lftp <<EOF
+          set ftp:ssl-force true
+          set ftp:ssl-protect-data true
+          set ssl:verify-certificate true
+          open --env-password -u "$FTP_USERNAME" "$FTP_SERVER"
+          mirror --reverse --only-newer --parallel=4 --verbose dist/ "$FTP_SERVER_DIR"
+          bye
+          EOF

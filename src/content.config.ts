@@ -15,10 +15,12 @@ const image = z.object({
   caption: z.string().optional(),
 });
 
+/** A subheading with optional intro paragraphs, a bullet list, and a closing note. */
 const subsection = z.object({
   heading: z.string(),
   body: z.array(z.string()).default([]),
   list: z.array(z.string()).default([]),
+  note: z.string().optional(),
 });
 
 /** Block library (B02, B03, B11–B17 on the board). Section numbers are generated from order. */

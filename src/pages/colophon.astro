@@ -1,0 +1,27 @@
+---
+import BasicLayout from '../layouts/BasicLayout.astro';
+---
+
+<BasicLayout title="How this site is built" intro="A short note on the tools, choices and checks behind robertwood.me.">
+  <h2>Stack</h2>
+  <p>
+    Built with Astro and TypeScript. Pages are static HTML and CSS, with JavaScript only for the theme switch. Content
+    lives in typed collections, so case studies and tools share one template each.
+  </p>
+  <h2>Design</h2>
+  <p>
+    The colours are muted CMYK inks on warm paper: a nod to my years in print design. Light and dark themes come from one
+    set of CSS custom properties, and the site follows your device's setting unless you choose otherwise.
+  </p>
+  <h2>Accessibility</h2>
+  <p>
+    Every page is tested automatically against WCAG 2.2 AA in both themes before it's published, including colour
+    contrast, keyboard focus and target sizes. If you find a barrier, please <a href="mailto:hello@robertwood.me">let me
+    know</a>.
+  </p>
+  <h2>Built with AI</h2>
+  <p>
+    I designed and built this site with Claude as a pair programmer. Commits it helped with are marked as co-authored in
+    the repository history.
+  </p>
+</BasicLayout>

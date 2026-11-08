@@ -1,0 +1,41 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageIntro from '../../components/PageIntro.astro';
+import BlockRenderer from '../../components/blocks/BlockRenderer.astro';
+import NextCta from '../../components/NextCta.astro';
+
+export const getStaticPaths = (async () => {
+  const studies = (await getCollection('caseStudies')).sort((a, b) => a.data.order - b.data.order);
+  return studies.map((study, index) => ({
+    params: { slug: study.id },
+    // The next case study wraps around to the first.
+    props: { study, next: studies[(index + 1) % studies.length]! },
+  }));
+}) satisfies GetStaticPaths;
+
+const { study, next } = Astro.props;
+const { data } = study;
+---
+
+<BaseLayout title={data.title} description={data.seoDescription ?? data.lede}>
+  <PageIntro
+    eyebrow={data.category}
+    title={data.title}
+    lede={data.lede}
+    facts={data.facts}
+    footnote={data.footnote}
+    backHref="/#work"
+    backLabel="All work"
+  />
+  <BlockRenderer blocks={data.blocks} />
+  <NextCta
+    nextLabel="Next case study"
+    nextTitle={next.data.title}
+    nextHref={`/work/${next.id}/`}
+    ctaHeading={data.cta.heading}
+    ctaLabel={data.cta.label}
+    ctaHref={data.cta.href}
+  />
+</BaseLayout>

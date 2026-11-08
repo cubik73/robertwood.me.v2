@@ -1,0 +1,55 @@
+---
+import type { Block } from '../../content.config';
+import SectionHeading from '../SectionHeading.astro';
+
+type Props = Extract<Block, { type: 'cards' }> & { number?: number };
+const { label, heading, cards, surface, number } = Astro.props;
+---
+
+<section class:list={['section', { 'section--surface': surface }]}>
+  <div class="container stack" style="--gap: 2.25rem">
+    <SectionHeading label={label} heading={heading} number={number} />
+    <ul class="grid" role="list" style="--min: 17rem">
+      {
+        cards.map((card) => (
+          <li class:list={['info-card', { 'info-card--highlight': card.highlight }]}>
+            <h3>{card.title}</h3>
+            <p>{card.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .info-card {
+    padding: 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--paper);
+  }
+
+  .section--surface .info-card {
+    background: var(--paper);
+  }
+
+  .info-card--highlight {
+    border-color: transparent;
+    background: var(--tint);
+  }
+
+  .section--surface .info-card--highlight {
+    background: var(--tint);
+  }
+
+  .info-card h3 {
+    margin-bottom: 0.4rem;
+    font-size: 1.25rem;
+  }
+
+  .info-card p {
+    color: var(--ink-2);
+    font-size: 1rem;
+  }
+</style>

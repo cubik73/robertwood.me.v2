@@ -1,0 +1,63 @@
+---
+import { site } from '../../data/site';
+
+interface Props {
+  number: number;
+}
+
+const { number } = Astro.props;
+const prefix = `${String(number).padStart(2, '0')} / `;
+---
+
+<section id="contact" class="section section--deep contact" aria-labelledby="contact-title">
+  <svg class="contact__regmark" width="28" height="28" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
+    <circle cx="13" cy="13" r="7"></circle>
+    <path d="M13 1v24M1 13h24"></path>
+  </svg>
+  <div class="container stack" style="--gap: 1.5rem">
+    <p class="eyebrow">{prefix}Contact</p>
+    <h2 id="contact-title" class="title-lg">Let's build something fast.</h2>
+    <p class="contact__intro">Hiring, contracting, or want a second opinion on your front end? Email is quickest.</p>
+    <a class="btn btn--hi contact__email" href={`mailto:${site.email}`}>{site.email}</a>
+    <ul class="cluster" role="list" style="--gap: 0.25rem 1.5rem">
+      <li><a href={site.linkedin}>LinkedIn</a></li>
+      <li><a href={site.github}>GitHub</a></li>
+      {site.cv && <li><a href={site.cv}>CV (PDF)</a></li>}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .contact {
+    position: relative;
+  }
+
+  .contact__regmark {
+    position: absolute;
+    right: 2rem;
+    top: 2rem;
+    color: var(--on-deep-muted);
+  }
+
+  .contact__intro {
+    max-width: 32rem;
+    font-size: 1.15rem;
+    color: var(--on-deep-muted);
+  }
+
+  .contact__email {
+    align-self: flex-start;
+    font-size: 1.15rem;
+  }
+
+  .contact a:not(.btn) {
+    display: inline-block;
+    padding-block: 0.3rem;
+    color: var(--on-deep);
+    font-weight: 500;
+  }
+
+  .contact a:not(.btn):hover {
+    color: var(--hi);
+  }
+</style>

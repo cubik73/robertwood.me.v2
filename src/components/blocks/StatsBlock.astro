@@ -1,0 +1,63 @@
+---
+import type { Block } from '../../content.config';
+import SectionHeading from '../SectionHeading.astro';
+
+type Props = Extract<Block, { type: 'stats' }> & {
+  number?: number;
+  /** "band" = cyan stats band (homepage); "deep" = ink band (case studies). */
+  variant?: 'band' | 'deep';
+  /** Keep the heading for screen readers but hide it visually (homepage band). */
+  hideHeading?: boolean;
+};
+
+const { label, heading, items, note, number, variant = 'deep', hideHeading = false } = Astro.props;
+---
+
+<section class:list={['section', variant === 'band' ? 'band' : 'section--deep', { 'stats--compact': hideHeading }]}>
+  <div class="container stack" style="--gap: 2.5rem">
+    <div class:list={{ 'visually-hidden': hideHeading }}>
+      <SectionHeading label={label} heading={heading} number={number} />
+    </div>
+    <dl class="grid stats" style="--min: 13rem; --gap: 2rem">
+      {
+        items.map((item) => (
+          <div class="stat">
+            <dt class="stat__caption">{item.caption}</dt>
+            <dd class="stat__value">{item.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+    {note && <p class="stats__note">{note}</p>}
+  </div>
+</section>
+
+<style>
+  .stats {
+    margin: 0;
+  }
+
+  .stats--compact {
+    padding-block: clamp(2.5rem, 5vw, 3.5rem);
+  }
+
+  /* Value above caption visually; caption first in source so it reads "caption: value". */
+  .stat {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.25rem;
+  }
+
+  .stat dd {
+    margin: 0;
+  }
+
+  .stats__note {
+    max-width: 48rem;
+    padding-left: 1.5rem;
+    border-left: 3px solid var(--hi);
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+    line-height: 1.35;
+  }
+</style>

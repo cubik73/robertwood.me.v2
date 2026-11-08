@@ -1,0 +1,37 @@
+---
+/**
+ * An image slot. Renders the real image once `src` is set in content,
+ * otherwise a labelled placeholder (announced with its alt text).
+ */
+interface Props {
+  image: { alt: string; placeholder: string; src?: string };
+  class?: string;
+  eager?: boolean;
+}
+
+const { image, class: className, eager = false } = Astro.props;
+---
+
+{
+  image.src ? (
+    <img
+      class:list={['media-img', className]}
+      src={image.src}
+      alt={image.alt}
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+    />
+  ) : (
+    <div class:list={['placeholder', className]} role="img" aria-label={image.alt}>
+      <span aria-hidden="true">{image.placeholder}</span>
+    </div>
+  )
+}
+
+<style>
+  .media-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>

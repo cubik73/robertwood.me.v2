@@ -52,7 +52,7 @@ blocks:
           - A low temperature (0.2) keeps output close to the source
           - "A separate fact-check call flags any claim it can't find in your CV"
           - Users confirm the role before generating, and are told to review everything
-        body: ["In testing it caught every fabricated claim I planted. It's still a model checking a model, so it's a safeguard, not a guarantee, and I never sent a CV without checking it myself."]
+        note: "In testing it caught every fabricated claim I planted. It's still a model checking a model, so it's a safeguard, not a guarantee, and I never sent a CV without checking it myself."
     tech: React 18 · TypeScript · MUI 6 · Express · Gemini API · docx · GitHub Actions
     link: { label: Try cv-gen →, href: 'https://robertwood.me/cv-gen/' }
     media: { alt: cv-gen turning a CV and job ad into a tailored CV with a fact check, placeholder: '[cv-gen screenshot]', address: robertwood.me/cv-gen }

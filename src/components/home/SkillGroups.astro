@@ -1,0 +1,36 @@
+---
+import SectionHeading from '../SectionHeading.astro';
+import { skills } from '../../data/site';
+
+interface Props {
+  number: number;
+}
+
+const { number } = Astro.props;
+---
+
+<section id="skills" class="section section--surface" aria-labelledby="skills-title">
+  <div class="container stack" style="--gap: 2.5rem">
+    <SectionHeading label="Skills" heading="What I work with" number={number} id="skills-title" />
+    <div class="grid" style="--min: 15rem; --gap: 2.5rem">
+      {
+        skills.map((group) => (
+          <div class="stack" style="--gap: 0.9rem">
+            <h3 class="skills__group">{group.title}</h3>
+            <ul class="cluster" role="list" style="--gap: 0.5rem">
+              {group.items.map((item) => (
+                <li class="chip">{item}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills__group {
+    font-size: 1.2rem;
+  }
+</style>

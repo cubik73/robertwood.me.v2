@@ -1,0 +1,40 @@
+---
+import SectionHeading from '../SectionHeading.astro';
+import Placeholder from '../Placeholder.astro';
+
+interface Props {
+  number: number;
+}
+
+const { number } = Astro.props;
+---
+
+<section id="about" class="section" aria-labelledby="about-title" style="padding-top: 0">
+  <div class="container about">
+    <Placeholder image={{ alt: 'Robert Wood at work', placeholder: '[Candid photo]' }} class="about__img" />
+    <div class="stack" style="--gap: 1.25rem">
+      <SectionHeading label="About" heading="From FrontPage to React" number={number} id="about-title" />
+      <div class="prose">
+        <p>
+          I started as an admin assistant who couldn't stop fixing things, built my employer's first website, and went
+          on to build sites for Lloyd's of London, ACPO and the NHS.
+        </p>
+        <p>These days I care about fast, accessible storefronts, and teams people want to stay in.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+    gap: 4rem;
+    align-items: center;
+  }
+
+  :global(.about__img) {
+    height: clamp(18rem, 35vw, 26rem);
+    border-radius: var(--radius-lg);
+  }
+</style>

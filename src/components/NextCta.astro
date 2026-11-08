@@ -1,0 +1,85 @@
+---
+/** B18 Next & CTA: the ending of every case study and tool. */
+interface Props {
+  nextLabel: string;
+  nextTitle: string;
+  nextHref: string;
+  ctaHeading: string;
+  ctaLabel: string;
+  ctaHref: string;
+}
+
+const { nextLabel, nextTitle, nextHref, ctaHeading, ctaLabel, ctaHref } = Astro.props;
+---
+
+<section class="container next" aria-label="What next">
+  <a class="next__card" href={nextHref}>
+    <span class="mono next__label">{nextLabel}</span>
+    <span class="next__title">{nextTitle}</span>
+    <span class="next__arrow" aria-hidden="true">Read it →</span>
+  </a>
+  <div class="next__cta">
+    <p class="next__title">{ctaHeading}</p>
+    <a class="btn btn--hi" href={ctaHref}>{ctaLabel}</a>
+  </div>
+</section>
+
+<style>
+  .next {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+    gap: 1.5rem;
+    padding-block: clamp(3.5rem, 8vw, 6rem);
+  }
+
+  .next__card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 2rem;
+    border: 1px solid var(--line-2);
+    border-radius: var(--radius);
+    background: var(--card);
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  .next__card:hover {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+
+  .next__label {
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .next__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2.2vw, 1.65rem);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .next__arrow {
+    font-weight: 600;
+    color: var(--link);
+  }
+
+  .next__cta {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: 2rem;
+    border-radius: var(--radius);
+    background: var(--deep);
+    color: var(--on-deep);
+  }
+
+  .next__cta .btn {
+    align-self: flex-start;
+  }
+</style>

@@ -1,0 +1,72 @@
+---
+interface Props {
+  address?: string;
+  height?: string;
+}
+
+const { address, height = 'clamp(16rem, 40vw, 30rem)' } = Astro.props;
+---
+
+<div class="browser halftone">
+  <div class="browser__window" style={`--h: ${height}`}>
+    <div class="browser__bar" aria-hidden="true">
+      <span class="browser__dots"><span></span><span></span><span></span></span>
+      {address && <span class="browser__address">{address}</span>}
+    </div>
+    <div class="browser__view">
+      <slot />
+    </div>
+  </div>
+</div>
+
+<style>
+  .browser {
+    border-radius: var(--radius-lg);
+    padding: clamp(1rem, 3vw, 2.25rem) clamp(1rem, 3vw, 2.25rem) 0;
+  }
+
+  .browser__window {
+    display: flex;
+    flex-direction: column;
+    height: var(--h);
+    background: var(--card);
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+    box-shadow: 0 -2px 24px var(--shadow);
+  }
+
+  .browser__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 0.9rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .browser__dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .browser__dots span {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--line-2);
+  }
+
+  .browser__address {
+    flex-grow: 1;
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    background: var(--paper);
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+  }
+
+  .browser__view {
+    flex-grow: 1;
+    display: grid;
+  }
+</style>

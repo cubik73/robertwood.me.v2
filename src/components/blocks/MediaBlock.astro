@@ -1,0 +1,87 @@
+---
+import type { Block } from '../../content.config';
+import Placeholder from '../Placeholder.astro';
+import BrowserFrame from '../frames/BrowserFrame.astro';
+import PhoneFrame from '../frames/PhoneFrame.astro';
+
+type Props = Extract<Block, { type: 'media' }>;
+const { frame, address, items } = Astro.props;
+const first = items[0]!;
+---
+
+<div class="container media-block">
+  {
+    frame === 'browser' && (
+      <figure>
+        <BrowserFrame address={address}>
+          <Placeholder image={first} eager />
+        </BrowserFrame>
+        {first.caption && <figcaption class="muted">{first.caption}</figcaption>}
+      </figure>
+    )
+  }
+  {
+    frame === 'phone' && (
+      <div class="phones halftone">
+        {items.map((item) => (
+          <figure class="phones__item">
+            <PhoneFrame>
+              <Placeholder image={item} />
+            </PhoneFrame>
+            {item.caption && <figcaption>{item.caption}</figcaption>}
+          </figure>
+        ))}
+      </div>
+    )
+  }
+  {
+    frame === 'none' && (
+      <figure>
+        <Placeholder image={first} class="media-block__plain" eager />
+        {first.caption && <figcaption class="muted">{first.caption}</figcaption>}
+      </figure>
+    )
+  }
+</div>
+
+<style>
+  .media-block {
+    padding-bottom: clamp(3.5rem, 8vw, 6.5rem);
+  }
+
+  figcaption {
+    margin-top: 0.75rem;
+    font-size: 0.9375rem;
+  }
+
+  .phones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2.5rem;
+    padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
+    border-radius: var(--radius-lg);
+  }
+
+  .phones__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.9rem;
+    flex: 0 1 14.5rem;
+  }
+
+  .phones__item figcaption {
+    margin: 0;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    background: var(--card);
+    color: var(--ink-2);
+    text-align: center;
+  }
+
+  :global(.media-block__plain) {
+    min-height: 20rem;
+    border-radius: var(--radius-lg);
+  }
+</style>

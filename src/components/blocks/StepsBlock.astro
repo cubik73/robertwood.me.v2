@@ -1,0 +1,65 @@
+---
+import type { Block } from '../../content.config';
+import SectionHeading from '../SectionHeading.astro';
+
+type Props = Extract<Block, { type: 'steps' }> & { number?: number };
+const { label, heading, steps, surface, number } = Astro.props;
+---
+
+<section class:list={['section', { 'section--surface': surface }]}>
+  <div class="container split">
+    <div class="split__aside">
+      <SectionHeading label={label} heading={heading} number={number} size="sm" />
+    </div>
+    <ol class="split__main steps" role="list">
+      {
+        steps.map((step, index) => (
+          <li class="step">
+            <span class="number-badge" aria-hidden="true">
+              {index + 1}
+            </span>
+            <div>
+              <h3>
+                <span class="visually-hidden">Step {index + 1}: </span>
+                {step.title}
+              </h3>
+              <p>{step.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .steps {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .step {
+    display: flex;
+    gap: 1.5rem;
+    padding-block: 1.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .step:first-child {
+    padding-top: 0;
+  }
+
+  .step:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .step h3 {
+    margin-bottom: 0.35rem;
+    font-size: 1.35rem;
+  }
+
+  .step p {
+    color: var(--ink-2);
+  }
+</style>

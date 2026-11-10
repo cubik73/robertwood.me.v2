@@ -3,6 +3,7 @@ title: 'myfstvl: a festival planner that catches clashes'
 category: Case study · Mobile app · Side project
 lede: A fan-made iOS and Android app that works with no signal at all. It turns a festival's PDF timetable into your own schedule, and warns you when the bands you want to see clash.
 order: 1
+date: 2025-08-01 # Built just before Leeds Festival 2025 (month approximate)
 card:
   summary: A fan-made, fully offline iOS and Android app, field-tested at Leeds Festival and Shiiine On Weekender.
   meta: React Native · Expo · Side project

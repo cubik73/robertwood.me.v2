@@ -16,7 +16,7 @@ export const site = {
   cv: '/robert-wood-cv.pdf',
   availability: {
     open: true,
-    text: 'Open to contract, hybrid & remote roles',
+    text: 'Open to permanent hybrid & remote roles',
   },
   nav: [
     { label: 'Work', href: '/#work' },

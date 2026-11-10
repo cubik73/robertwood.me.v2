@@ -2,6 +2,9 @@
 import Logo from './Logo.astro';
 import ThemeToggle from './ThemeToggle.astro';
 import { site } from '../data/site';
+
+// "/work/myfstvl/" → "/#work", so the matching menu item is marked as the current section.
+const current = `/#${Astro.url.pathname.split('/')[1]}`;
 ---
 
 <header class="site-header">
@@ -12,7 +15,9 @@ import { site } from '../data/site';
         {
           site.nav.map((item) => (
             <li>
-              <a href={item.href}>{item.label}</a>
+              <a href={item.href} aria-current={item.href === current ? 'true' : undefined}>
+                {item.label}
+              </a>
             </li>
           ))
         }
@@ -57,6 +62,13 @@ import { site } from '../data/site';
   .site-nav a:hover {
     color: var(--ink);
     text-decoration: underline;
+  }
+
+  .site-nav a[aria-current] {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.3em;
   }
 
   .site-header__actions {

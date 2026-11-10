@@ -33,6 +33,9 @@ test.describe('keyboard', () => {
     await expect(skip).toBeVisible();
     await page.keyboard.press('Enter');
     await expect(page).toHaveURL(/#main$/);
+    // The next Tab must land inside the main content, not back in the header.
+    await page.keyboard.press('Tab');
+    await expect(page.locator('main :focus')).toHaveCount(1);
   });
 });
 

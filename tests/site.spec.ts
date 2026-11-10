@@ -81,3 +81,19 @@ test.describe('content', () => {
     await expect(page.getByRole('heading', { level: 1, name: 'Page not found' })).toBeVisible();
   });
 });
+
+test.describe('navigation', () => {
+  test('marks the current section in the main menu', async ({ page }) => {
+    const nav = page.getByRole('navigation', { name: 'Main' });
+
+    await page.goto('/work/myfstvl/');
+    await expect(nav.getByRole('link', { name: 'Work' })).toHaveAttribute('aria-current', 'true');
+    await expect(nav.locator('[aria-current]')).toHaveCount(1);
+
+    await page.goto('/tools/viewport-overlay/');
+    await expect(nav.getByRole('link', { name: 'Tools' })).toHaveAttribute('aria-current', 'true');
+
+    await page.goto('/');
+    await expect(nav.locator('[aria-current]')).toHaveCount(0);
+  });
+});

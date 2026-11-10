@@ -45,7 +45,8 @@
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
-    scroll-padding-top: 1rem;
+    /* Clears the floating header when jumping to an in-page section. */
+    scroll-padding-top: 6rem;
   }
 
   body {

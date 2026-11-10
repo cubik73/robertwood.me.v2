@@ -40,25 +40,25 @@ blocks:
       - { title: Works fully offline, text: 'No wifi or signal needed: the whole line-up lives on the phone, for festival sites where coverage is patchy at best.', highlight: true }
       - { title: Timetable grid, text: 'Every stage side by side, with a line at the current time that scrolls to now.' }
       - { title: Built for late nights, text: 'Sets after midnight stay with the night they belong to: 1am on Saturday is still Friday night.' }
-      - { title: Artist index, text: Search and sort every act on the line-up. }
+      - { title: Artist index, text: 'Search and sort every act on the line-up.' }
       - { title: Accessible by design, text: "Follows the phone's dark mode, with high contrast, 12 or 24-hour times, and a choice of toolbar position." }
   - type: steps
     label: How I built it
     heading: AI as a pair programmer
     steps:
-      - { title: Scaffolded with Claude, text: Used Claude to set up the React Native and Expo app, and to weigh up the best route to market. }
+      - { title: Scaffolded with Claude, text: 'Used Claude to set up the React Native and Expo app, and to weigh up the best route to market.' }
       - { title: Field-tested at Leeds Festival, text: 'Used an early version for two days at Leeds Festival 2025, then fixed the issues it showed up.' }
       - { title: Paired on the hard logic, text: 'Worked through tricky problems, like set times that run past midnight, with Claude as a pair programmer.' }
-      - { title: Tested and released properly, text: "Playwright end-to-end tests, with Claude helping to find and fix bugs. GitHub Actions bumps the version on every release, and Expo's EAS builds the apps." }
+      - { title: Tested and released properly, text: 'Playwright end-to-end tests, with Claude helping to find and fix bugs. GitHub Actions bumps the version on every release, and Expo&apos;s EAS builds the apps.' }
   - type: stats
     label: Where it's at
     heading: Tested where it matters
     items:
-      - { value: '2', caption: 'festivals used in the field: Leeds 2025 and Skegness 2026' }
-      - { value: '187', caption: sets loaded across two Shiiine On weekends }
-      - { value: '16', caption: automated end-to-end tests }
-      - { value: 100%, caption: 'offline: no wifi, signal or accounts needed' }
-    note: Picking the bands you want to see, then having the clashes flagged for you, turned out to be the biggest benefit. Exactly what we set out to build.
+      - { value: '3', caption: 'festivals used in the field: Leeds Festival and SHIIINE ON Skegness & Minehead 2025' }
+      - { value: '187', caption: 'sets loaded across two Shiiine On weekends' }
+      - { value: '16', caption: 'automated end-to-end tests' }
+      - { value: '100%', caption: 'offline: no wifi, signal or accounts needed' }
+    note: Picking the bands you want to see, then having the clashes flagged for you, turned out to be the biggest benefit. Exactly what I set out to build.
   - type: text
     label: What I learned
     heading: Lessons from the field

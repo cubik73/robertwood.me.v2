@@ -3,17 +3,26 @@ import SectionHeading from '../SectionHeading.astro';
 import Placeholder from '../Placeholder.astro';
 
 interface Props {
-  number: number;
+  number?: number;
+  /** Render as its own page: h1 heading, no number, no link to the page. */
+  page?: boolean;
 }
 
-const { number } = Astro.props;
+const { number, page = false } = Astro.props;
 ---
 
-<section id="about" class="section" aria-labelledby="about-title" style="padding-top: 0">
+<section id="about" class="section" aria-labelledby="about-title" style={page ? undefined : 'padding-top: 0'}>
   <div class="container about">
     <Placeholder image={{ alt: 'Robert Wood at work', placeholder: '[Candid photo]' }} class="about__img" />
     <div class="stack" style="--gap: 1.25rem">
-      <SectionHeading label="About" heading="From FrontPage to React" number={number} id="about-title" />
+      <SectionHeading
+        label="About"
+        heading="From FrontPage to React"
+        number={page ? undefined : number}
+        level={page ? 1 : 2}
+        size={page ? 'lg' : 'md'}
+        id="about-title"
+      />
       <div class="prose">
         <p>
           I started as an admin assistant who couldn't stop fixing things, built my employer's first website, and went
@@ -21,6 +30,7 @@ const { number } = Astro.props;
         </p>
         <p>These days I care about fast, accessible storefronts, and teams people want to stay in.</p>
       </div>
+      {!page && <a class="link-arrow" href="/about/">More about me →</a>}
     </div>
   </div>
 </section>

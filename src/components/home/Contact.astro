@@ -2,11 +2,14 @@
 import { site } from '../../data/site';
 
 interface Props {
-  number: number;
+  number?: number;
+  /** Render as its own page: h1 heading, no number, no link to the page. */
+  page?: boolean;
 }
 
-const { number } = Astro.props;
-const prefix = `${String(number).padStart(2, '0')} / `;
+const { number, page = false } = Astro.props;
+const prefix = number && !page ? `${String(number).padStart(2, '0')} / ` : '';
+const Heading = page ? 'h1' : 'h2';
 ---
 
 <section id="contact" class="section section--deep contact" aria-labelledby="contact-title">
@@ -16,13 +19,14 @@ const prefix = `${String(number).padStart(2, '0')} / `;
   </svg>
   <div class="container stack" style="--gap: 1.5rem">
     <p class="eyebrow">{prefix}Contact</p>
-    <h2 id="contact-title" class="title-lg">Let's build something fast.</h2>
+    <Heading id="contact-title" class="title-lg">Let's build something fast.</Heading>
     <p class="contact__intro">Hiring, contracting, or want a second opinion on your front end? Email is quickest.</p>
     <a class="btn btn--hi contact__email" href={`mailto:${site.email}`}>{site.email}</a>
     <ul class="cluster" role="list" style="--gap: 0.25rem 1.5rem">
       <li><a href={site.linkedin}>LinkedIn</a></li>
       <li><a href={site.github}>GitHub</a></li>
       {site.cv && <li><a href={site.cv}>CV (PDF)</a></li>}
+      {!page && <li><a href="/contact/">Contact page</a></li>}
     </ul>
   </div>
 </section>

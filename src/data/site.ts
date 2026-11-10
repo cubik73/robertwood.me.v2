@@ -1,3 +1,5 @@
+import type { CaseStudySort } from '../lib/sortCaseStudies';
+
 /**
  * Global settings: the "Global settings" group on the CMS board.
  * Edit once, used in the header, hero, contact section and footer.
@@ -19,12 +21,14 @@ export const site = {
     text: 'Open to permanent hybrid & remote roles',
   },
   nav: [
-    { label: 'Work', href: '/#work' },
-    { label: 'Tools', href: '/#tools' },
-    { label: 'Experience', href: '/#experience' },
-    { label: 'About', href: '/#about' },
-    { label: 'Contact', href: '/#contact' },
+    { label: 'Work', href: '/work/' },
+    { label: 'Tools', href: '/tools/' },
+    { label: 'Experience', href: '/experience/' },
+    { label: 'About', href: '/about/' },
+    { label: 'Contact', href: '/contact/' },
   ],
+  /** How case studies are listed: 'order' (the order field) or 'date' (newest first). */
+  caseStudySort: 'order' as CaseStudySort,
 } as const;
 
 /** Homepage headline figures. */

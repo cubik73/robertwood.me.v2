@@ -37,12 +37,12 @@ test.describe('keyboard', () => {
 });
 
 test.describe('content', () => {
-  test('homepage lists every case study and tool', async ({ page }) => {
-    await page.goto('/');
-    const work = routes.filter((r) => r.startsWith('/work/'));
-    const tools = routes.filter((r) => r.startsWith('/tools/'));
-    for (const href of [...work, ...tools]) {
-      await expect(page.locator(`a[href="${href}"]`).first()).toBeAttached();
+  test('the Work and Tools pages list every case study and tool', async ({ page }) => {
+    for (const section of ['/work/', '/tools/']) {
+      await page.goto(section);
+      for (const href of routes.filter((r) => r.startsWith(section) && r !== section)) {
+        await expect(page.locator(`a[href="${href}"]`).first()).toBeAttached();
+      }
     }
   });
 
@@ -86,6 +86,9 @@ test.describe('navigation', () => {
   test('marks the current section in the main menu', async ({ page }) => {
     const nav = page.getByRole('navigation', { name: 'Main' });
 
+    await page.goto('/work/');
+    await expect(nav.getByRole('link', { name: 'Work' })).toHaveAttribute('aria-current', 'page');
+
     await page.goto('/work/myfstvl/');
     await expect(nav.getByRole('link', { name: 'Work' })).toHaveAttribute('aria-current', 'true');
     await expect(nav.locator('[aria-current]')).toHaveCount(1);
@@ -96,4 +99,13 @@ test.describe('navigation', () => {
     await page.goto('/');
     await expect(nav.locator('[aria-current]')).toHaveCount(0);
   });
+});
+
+test('homepage shows the latest three case studies and links to all of them', async ({ page }) => {
+  await page.goto('/');
+  const work = page.locator('#work');
+  await expect(work.getByRole('listitem')).toHaveCount(3);
+  await work.getByRole('link', { name: /See all \d+ case studies/ }).click();
+  await expect(page).toHaveURL(/\/work\/$/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText("Problems I've solved");
 });

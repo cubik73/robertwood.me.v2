@@ -4,10 +4,12 @@ import SectionHeading from '../SectionHeading.astro';
 import { site } from '../../data/site';
 
 interface Props {
-  number: number;
+  number?: number;
+  /** Render as its own page: h1 heading, no number, no link to the page. */
+  page?: boolean;
 }
 
-const { number } = Astro.props;
+const { number, page = false } = Astro.props;
 const roles = (await getCollection('experience')).sort((a, b) => a.data.order - b.data.order);
 const main = roles.filter((r) => r.data.main);
 const earlier = roles.filter((r) => !r.data.main);
@@ -19,7 +21,14 @@ const dates = (start: string, end?: string) => `${start} – ${end ?? 'now'}`;
 <section id="experience" class="section" aria-labelledby="experience-title">
   <div class="container stack" style="--gap: 2rem">
     <div class="timeline__head">
-      <SectionHeading label="Experience" heading="Where I've been" number={number} id="experience-title" />
+      <SectionHeading
+        label="Experience"
+        heading="Where I've been"
+        number={page ? undefined : number}
+        level={page ? 1 : 2}
+        size={page ? 'lg' : 'md'}
+        id="experience-title"
+      />
       {site.cv && <a class="link-arrow" href={site.cv}>Full CV (PDF) →</a>}
     </div>
     <ol class="timeline" role="list">
@@ -60,6 +69,7 @@ const dates = (start: string, end?: string) => `${start} – ${end ?? 'now'}`;
         </details>
       )
     }
+    {!page && <a class="link-arrow" href="/experience/">View experience →</a>}
   </div>
 </section>
 

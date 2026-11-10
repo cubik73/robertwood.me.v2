@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ToolCards from '../../components/home/ToolCards.astro';
+---
+
+<BaseLayout title="Tools" description="Free, open-source browser userscripts for the checks I make on every build.">
+  <ToolCards page />
+  <section class="section section--deep" aria-label="Case studies">
+    <div class="container cluster" style="justify-content: space-between; --gap: 1.5rem">
+      <p class="title-md">See how I put them to work.</p>
+      <a class="btn btn--hi" href="/work/">Read the case studies</a>
+    </div>
+  </section>
+</BaseLayout>

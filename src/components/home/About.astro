@@ -12,7 +12,7 @@ const { number, page = false } = Astro.props;
 ---
 
 <section id="about" class="section" aria-labelledby="about-title" style={page ? undefined : 'padding-top: 0'}>
-  <div class="container about">
+  <div class:list={['container about', { 'about--page': page }]}>
     <Placeholder image={{ alt: 'Robert Wood at work', placeholder: '[Candid photo]' }} class="about__img" />
     <div class="stack" style="--gap: 1.25rem">
       <SectionHeading
@@ -23,13 +23,58 @@ const { number, page = false } = Astro.props;
         size={page ? 'lg' : 'md'}
         id="about-title"
       />
-      <div class="prose">
-        <p>
-          I started as an admin assistant who couldn't stop fixing things, built my employer's first website, and went
-          on to build sites for Lloyd's of London, ACPO and the NHS.
-        </p>
-        <p>These days I care about fast, accessible storefronts, and teams people want to stay in.</p>
-      </div>
+      {
+        page ? (
+          <div class="prose">
+            <p>
+              I'm Robert (Rob) Wood, an experienced Senior Front-End Developer based in York, UK. As a Team Lead and
+              Product Owner I have a proven track record in optimising e-commerce platforms, reducing website load times
+              by 80%, and leading teams with a 100% retention rate.
+            </p>
+            <h2 class="title-sm about__subhead">Multi-skilled technologist</h2>
+            <p>
+              With over 30 years of diverse experience in technology and design, I blend a rich array of soft and hard
+              skills to empower employers and clients in achieving exceptional results.
+            </p>
+            <h2 class="title-sm about__subhead">My journey</h2>
+            <p>
+              I began my career as an administrative assistant, where I quickly discovered a knack for troubleshooting
+              and supporting colleagues through design and layout issues, particularly with Microsoft Office, Lotus and
+              WordPerfect applications. My proactive, solutions-focused approach soon led to a part-time role in
+              Technical Support. This opportunity allowed me to deepen my technical expertise while building both hard
+              and soft skills through collaboration with internal teams and external clients alike.
+            </p>
+            <p>
+              In this role, I noticed a knowledge gap in our department and decided to dive into web development by
+              picking up Microsoft FrontPage. What started as a self-guided exploration soon laid the groundwork for my
+              career. The simple web pages I created as part of my learning became the company's very first website,
+              marking a turning point in my professional journey.
+            </p>
+            <p>
+              From there, I was promoted to Webmaster, evolving into the company's 'go-to guy' for all things Internet.
+              My portfolio expanded to include internet and intranet sites for prominent organisations such as Lloyd's
+              of London, the Association of Chief Police Officers, and the NHS. My work even caught Microsoft's
+              attention, earning me an invitation to demonstrate at a conference in Brighton on the Dynamic Web's rapid
+              evolution.
+            </p>
+            <p>
+              Throughout my career, I have enjoyed mentoring and leading teams, guiding Technical Support juniors to
+              achieve industry-recognised qualifications from Microsoft, Novell, and Lotus. More recently, I built and
+              managed a front-end development team within a fast-paced, agile environment. I'm particularly proud of my
+              100% retention rate across all teams I've managed, reflecting my commitment to fostering a positive and
+              growth-oriented workplace.
+            </p>
+          </div>
+        ) : (
+          <div class="prose">
+            <p>
+              I started as an admin assistant who couldn't stop fixing things, built my employer's first website, and
+              went on to build sites for Lloyd's of London, ACPO and the NHS.
+            </p>
+            <p>These days I care about fast, accessible storefronts, and teams people want to stay in.</p>
+          </div>
+        )
+      }
       {!page && <a class="link-arrow" href="/about/">More about me →</a>}
     </div>
   </div>
@@ -41,6 +86,16 @@ const { number, page = false } = Astro.props;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
     gap: 4rem;
     align-items: center;
+  }
+
+  /* Long text on the About page: keep the photo at the top, not centred. */
+  .about--page {
+    align-items: start;
+  }
+
+  .about__subhead {
+    margin-top: 2rem;
+    color: var(--ink);
   }
 
   :global(.about__img) {

@@ -42,6 +42,7 @@ jobs:
       # server (no --delete), so other apps on the host, such as /cv-gen, are safe.
       # The password is read from LFTP_PASSWORD (--env-password), so it never
       # appears on a command line and special characters can't break parsing.
+      # --no-perms keeps the server's default 644/755, which PHP on Namecheap requires.
       - name: Upload over FTPS
         env:
           FTP_SERVER: ${{ secrets.FTP_SERVER }}
@@ -54,6 +55,6 @@ jobs:
           set ftp:ssl-protect-data true
           set ssl:verify-certificate true
           open --env-password -u "$FTP_USERNAME" "$FTP_SERVER"
-          mirror --reverse --only-newer --parallel=4 --verbose dist/ "$FTP_SERVER_DIR"
+          mirror --reverse --only-newer --no-perms --parallel=4 --verbose dist/ "$FTP_SERVER_DIR"
           bye
           EOF

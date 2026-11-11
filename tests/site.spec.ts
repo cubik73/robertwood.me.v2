@@ -112,3 +112,11 @@ test('homepage shows the latest three case studies and links to all of them', as
   await expect(page).toHaveURL(/\/work\/$/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText("Problems I've solved");
 });
+
+test('CV request form shows its error only when sent back with #error', async ({ page }) => {
+  await page.goto('/request-cv/');
+  await expect(page.getByRole('textbox', { name: 'Name' })).toBeVisible();
+  await expect(page.getByRole('alert')).toBeHidden();
+  await page.goto('/request-cv/#error');
+  await expect(page.getByRole('alert')).toBeVisible();
+});

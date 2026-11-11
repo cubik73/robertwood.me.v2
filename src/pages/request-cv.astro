@@ -1,0 +1,100 @@
+---
+import BasicLayout from '../layouts/BasicLayout.astro';
+import { site } from '../data/site';
+---
+
+<BasicLayout
+  title="Request my CV"
+  intro="Tell me who you are and I'll email you my latest CV, usually within a working day."
+>
+  <p id="error" class="form-error" role="alert">
+    Sorry, that didn't send. Please check your name and email address and try again, or email me at
+    <a href={`mailto:${site.email}`}>{site.email}</a>.
+  </p>
+
+  <form class="cv-form" method="post" action="/request-cv.php">
+    <label class="cv-form__field">
+      Name
+      <input type="text" name="name" autocomplete="name" required maxlength="100" />
+    </label>
+    <label class="cv-form__field">
+      Email
+      <input type="email" name="email" autocomplete="email" required maxlength="254" />
+    </label>
+    <label class="cv-form__field">
+      Company <span class="muted">(optional)</span>
+      <input type="text" name="company" autocomplete="organization" maxlength="150" />
+    </label>
+    <label class="cv-form__field">
+      Role or message <span class="muted">(optional)</span>
+      <textarea name="message" rows="4" maxlength="2000"></textarea>
+    </label>
+    <!-- Spam trap: hidden from people, filled in by bots. -->
+    <div class="cv-form__trap" aria-hidden="true">
+      <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+    </div>
+    <button class="btn btn--primary cv-form__submit" type="submit">Request CV</button>
+    <p class="muted cv-form__note">
+      Your details are emailed to me and used only to reply. See <a href="/privacy/">privacy</a>.
+    </p>
+  </form>
+</BasicLayout>
+
+<style>
+  .cv-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    font-size: 1rem;
+  }
+
+  .cv-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .cv-form__field .muted {
+    font-weight: 400;
+  }
+
+  .cv-form input,
+  .cv-form textarea {
+    font: inherit;
+    font-weight: 400;
+    padding: 0.75rem 0.85rem;
+    border: 1.5px solid var(--muted);
+    border-radius: var(--radius-sm);
+    background: var(--card);
+    color: var(--ink);
+  }
+
+  .cv-form__submit {
+    align-self: flex-start;
+  }
+
+  .cv-form__note {
+    font-size: 0.9rem;
+  }
+
+  .cv-form__trap {
+    position: absolute;
+    left: -100vw;
+  }
+
+  /* Shown only when the handler sends people back to /request-cv/#error. */
+  .form-error {
+    display: none;
+    padding: 1rem 1.25rem;
+    border: 1.5px solid var(--label);
+    border-radius: var(--radius-sm);
+    background: var(--card);
+    color: var(--ink);
+  }
+
+  .form-error:target {
+    display: block;
+  }
+</style>

@@ -14,8 +14,8 @@ export const site = {
   email: 'hello@robertwood.me',
   linkedin: 'https://www.linkedin.com/in/robwood/',
   github: 'https://github.com/cubik73',
-  /** Place the PDF in /public; the button hides itself if this is empty. */
-  cv: '/robert-wood-cv.pdf',
+  /** CV request page; the CV links hide themselves if this is empty. */
+  cv: '/request-cv/',
   availability: {
     open: true,
     text: 'Open to permanent hybrid & remote roles',

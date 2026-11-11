@@ -16,4 +16,6 @@ export const routes = [
   '/tools/webpage-guidelines/',
   '/colophon/',
   '/privacy/',
+  '/request-cv/',
+  '/request-cv/sent/',
 ];

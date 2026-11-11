@@ -11,6 +11,8 @@ ErrorDocument 404 /404.html
 
   # HTTPS everywhere.
   RewriteCond %{HTTPS} !=on
+  # From the old site's file: stops a redirect loop if the host's proxy ends HTTPS.
+  RewriteCond %{HTTP:X-Forwarded-SSL} !=on
   RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
 
   # www -> bare domain, to match the canonical URLs in every page.

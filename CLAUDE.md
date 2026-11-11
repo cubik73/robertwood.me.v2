@@ -83,7 +83,7 @@ Next:
 1. Rob reviews and merges PR #1.
 2. Run `npm install` locally, commit `package-lock.json`, then switch CI to `npm ci` with `cache: npm`.
 3. Real images: set `src` on each image slot (alt text already written). Portrait, candid photo, app screenshots, storefront, tool screenshots.
-4. CV PDF at `public/robert-wood-cv.pdf`.
+4. CV requests (no public PDF, by choice): `/request-cv/` posts to `public/request-cv.php`, which emails Rob via PHP `mail()`. Before launch, confirm the host runs PHP 7.4+ with `mail()`, and that `website@robertwood.me` may send (SPF), then send a test request.
 5. Deploy: add secrets `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`, `FTP_SERVER_DIR` and a `production` environment; deploy to a staging folder first.
 6. Optional: contact form (needs a handler such as Formspree or a small endpoint), Open Graph share images, sitemap/robots review, Lighthouse budget in CI.
 7. Open content questions: See Green dates/summary (currently 2025 – 2026), Andrew Holloway naming consent, image captions marked `[Caption…]`.

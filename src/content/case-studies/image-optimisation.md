@@ -3,6 +3,7 @@ title: Cutting the image footprint by ~80%
 category: Case study · Web performance · Process
 lede: "How I took Beer Hawk's (now PerfectDraft's) Magento 2 store from print-resolution uploads to automatically optimised WebP images, starting with fixes by hand and ending fully automated."
 order: 3
+date: 2018-11-01 # Issue spotted around June 2018; resolved before Black Friday 2018
 card:
   summary: From fixing print-size uploads by hand to automatic optimisation and WebP delivery.
   meta: Web performance · Process

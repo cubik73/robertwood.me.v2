@@ -2,24 +2,35 @@
 import { getCollection } from 'astro:content';
 import SectionHeading from '../SectionHeading.astro';
 import Placeholder from '../Placeholder.astro';
+import { sortCaseStudies } from '../../lib/sortCaseStudies';
+import { site } from '../../data/site';
 
 interface Props {
-  number: number;
+  number?: number;
+  /** Render as its own page: h1 heading, no number, no link to the page. */
+  page?: boolean;
 }
 
-const { number } = Astro.props;
-const studies = (await getCollection('caseStudies', ({ data }) => data.featured)).sort(
-  (a, b) => a.data.order - b.data.order,
-);
+const { number, page = false } = Astro.props;
+const all = sortCaseStudies(await getCollection('caseStudies'), site.caseStudySort);
+// The homepage shows the latest three featured; the Work page shows everything.
+const studies = page ? all : all.filter(({ data }) => data.featured).slice(0, 3);
 ---
 
 <section id="work" class="section" aria-labelledby="work-title">
   <div class="container stack" style="--gap: 2.5rem">
     <div class="work__head">
-      <SectionHeading label="Selected work" heading="Problems I've solved" number={number} id="work-title" />
+      <SectionHeading
+        label="Selected work"
+        heading="Problems I've solved"
+        number={page ? undefined : number}
+        level={page ? 1 : 2}
+        size={page ? 'lg' : 'md'}
+        id="work-title"
+      />
       <p class="muted work__intro">What the problem was, what I did, and what changed as a result.</p>
     </div>
-    <ul class="grid" role="list" style="--min: 28rem; --gap: 1.75rem">
+    <ul class="grid" role="list" style={page ? '--min: 28rem; --gap: 1.75rem' : '--min: 20rem; --gap: 1.5rem'}>
       {
         studies.map(({ id, data }) => (
           <li class="card work-card">
@@ -39,10 +50,21 @@ const studies = (await getCollection('caseStudies', ({ data }) => data.featured)
         ))
       }
     </ul>
+    {
+      !page && (
+        <a class="btn btn--outline work__all" href="/work/">
+          See all {all.length} case studies →
+        </a>
+      )
+    }
   </div>
 </section>
 
 <style>
+  .work__all {
+    align-self: center;
+  }
+
   .work__head {
     display: flex;
     flex-wrap: wrap;

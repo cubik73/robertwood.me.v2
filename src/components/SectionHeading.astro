@@ -7,14 +7,14 @@ interface Props {
   label: string;
   heading: string;
   number?: number;
-  level?: 2 | 3;
-  size?: 'md' | 'sm';
+  level?: 1 | 2 | 3;
+  size?: 'lg' | 'md' | 'sm';
   id?: string;
 }
 
 const { label, heading, number, level = 2, size = 'md', id } = Astro.props;
 const prefix = number ? `${String(number).padStart(2, '0')} / ` : '';
-const Tag = level === 2 ? 'h2' : 'h3';
+const Tag = `h${level}` as 'h1' | 'h2' | 'h3';
 ---
 
 <div class="section-heading">

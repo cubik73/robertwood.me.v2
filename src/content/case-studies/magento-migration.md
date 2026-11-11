@@ -3,6 +3,7 @@ title: Nine European stores, one Magento 2 platform
 category: Case study · Magento 2 · Product ownership
 lede: "How AB InBev brought its acquired European beer retailers onto PerfectDraft's proven UK Magento 2 platform: one system for nine countries, in seven languages."
 order: 2
+date: 2024-02-01 # Migrated stores launched February 2024
 card:
   summary: Planned and led the migration in seven languages, and trained 20+ colleagues to run it themselves.
   meta: Magento 2 · Product ownership

@@ -104,6 +104,8 @@ const caseStudies = defineCollection({
     category: z.string(),
     lede: z.string(),
     order: z.number(),
+    /** When the work happened (YYYY-MM-DD); used when `site.caseStudySort` is 'date'. */
+    date: z.coerce.date().optional(),
     featured: z.boolean().default(true),
     card: z.object({
       summary: z.string(),

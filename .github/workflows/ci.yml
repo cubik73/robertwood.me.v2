@@ -37,6 +37,9 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: PHP form handler self-check
+        run: npm run test:php
+
       - name: End-to-end and accessibility tests
         run: npm run test:e2e
 

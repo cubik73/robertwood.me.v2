@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import WorkCards from '../../components/home/WorkCards.astro';
+---
+
+<BaseLayout title="Work" description="Case studies: what the problem was, what I did, and what changed as a result.">
+  <WorkCards page />
+  <section class="section section--deep" aria-label="Get in touch">
+    <div class="container cluster" style="justify-content: space-between; --gap: 1.5rem">
+      <p class="title-md">Want the detail behind any of these?</p>
+      <a class="btn btn--hi" href="/contact/">Get in touch</a>
+    </div>
+  </section>
+</BaseLayout>

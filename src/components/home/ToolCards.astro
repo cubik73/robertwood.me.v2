@@ -4,17 +4,26 @@ import SectionHeading from '../SectionHeading.astro';
 import ToolIcon from '../ToolIcon.astro';
 
 interface Props {
-  number: number;
+  number?: number;
+  /** Render as its own page: h1 heading, no number, no link to the page. */
+  page?: boolean;
 }
 
-const { number } = Astro.props;
+const { number, page = false } = Astro.props;
 const tools = (await getCollection('tools')).sort((a, b) => a.data.order - b.data.order);
 ---
 
-<section id="tools" class="section" aria-labelledby="tools-title" style="padding-top: 0">
+<section id="tools" class="section" aria-labelledby="tools-title" style={page ? undefined : 'padding-top: 0'}>
   <div class="container stack" style="--gap: 2.25rem">
     <div class="tools__head">
-      <SectionHeading label="Tools" heading="Tools I use every day" number={number} id="tools-title" />
+      <SectionHeading
+        label="Tools"
+        heading="Tools I use every day"
+        number={page ? undefined : number}
+        level={page ? 1 : 2}
+        size={page ? 'lg' : 'md'}
+        id="tools-title"
+      />
       <p class="muted tools__intro">Free, open-source browser userscripts for the checks I make on every build.</p>
     </div>
     <ul class="grid" role="list" style="--min: 18rem">
@@ -36,6 +45,7 @@ const tools = (await getCollection('tools')).sort((a, b) => a.data.order - b.dat
         ))
       }
     </ul>
+    {!page && <a class="link-arrow" href="/tools/">See all tools →</a>}
   </div>
 </section>
 

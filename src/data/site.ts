@@ -1,3 +1,5 @@
+import type { CaseStudySort } from '../lib/sortCaseStudies';
+
 /**
  * Global settings: the "Global settings" group on the CMS board.
  * Edit once, used in the header, hero, contact section and footer.
@@ -12,19 +14,21 @@ export const site = {
   email: 'hello@robertwood.me',
   linkedin: 'https://www.linkedin.com/in/robwood/',
   github: 'https://github.com/cubik73',
-  /** Place the PDF in /public; the button hides itself if this is empty. */
-  cv: '/robert-wood-cv.pdf',
+  /** CV request page; the CV links hide themselves if this is empty. */
+  cv: '/request-cv/',
   availability: {
     open: true,
     text: 'Open to permanent hybrid & remote roles',
   },
   nav: [
-    { label: 'Work', href: '/#work' },
-    { label: 'Tools', href: '/#tools' },
-    { label: 'Experience', href: '/#experience' },
-    { label: 'About', href: '/#about' },
-    { label: 'Contact', href: '/#contact' },
+    { label: 'Work', href: '/work/' },
+    { label: 'Tools', href: '/tools/' },
+    { label: 'Experience', href: '/experience/' },
+    { label: 'About', href: '/about/' },
+    { label: 'Contact', href: '/contact/' },
   ],
+  /** How case studies are listed: 'order' (the order field) or 'date' (newest first). */
+  caseStudySort: 'order' as CaseStudySort,
 } as const;
 
 /** Homepage headline figures. */

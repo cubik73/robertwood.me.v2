@@ -1,0 +1,36 @@
+# robertwood.me on Namecheap shared hosting (LiteSpeed reads .htaccess like Apache).
+# Deployed to public_html. Folders below inherit this, including /cv-gen/
+# unless it has its own .htaccess.
+
+Options -Indexes
+DirectoryIndex index.html index.php
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # HTTPS everywhere.
+  RewriteCond %{HTTPS} !=on
+  # From the old site's file: stops a redirect loop if the host's proxy ends HTTPS.
+  RewriteCond %{HTTP:X-Forwarded-SSL} !=on
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+  # www -> bare domain, to match the canonical URLs in every page.
+  RewriteCond %{HTTP_HOST} ^www\.robertwood\.me$ [NC]
+  RewriteRule ^ https://robertwood.me%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  # The live site already sends this and is on the HSTS preload list, so keep it.
+  # includeSubDomains means every subdomain must have a valid certificate.
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+
+  # Pages change on every deploy: always check for a newer copy.
+  <FilesMatch "\.html$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
